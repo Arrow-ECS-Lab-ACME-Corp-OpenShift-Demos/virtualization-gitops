@@ -4,7 +4,7 @@ metadata:
   name: centos-vm-argo-demo
   namespace: virtual-machines
 spec:
-  running: false
+  startPolicy: Always
   template:
     metadata:
       labels:
