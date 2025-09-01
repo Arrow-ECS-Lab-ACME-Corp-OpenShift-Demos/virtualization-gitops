@@ -1,0 +1,41 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: centos-vm-argo-demo
+  namespace: virtual-machines
+spec:
+  running: false
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: centos-vm
+    spec:
+      domain:
+        devices:
+          disks:
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+        resources:
+          requests:
+            memory: 1Gi
+      volumes:
+        - name: containerdisk
+          containerDisk:
+            image: quay.io/containerdisks/centos-stream:9
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              hostname: centos-vm
+              ssh_pwauth: True
+              users:
+                - name: user1
+                  ssh-authorized-keys:
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID9iOvCQWkwvRR4vZu7OFN7jtaBg/+gp9yt8PwA3eQPf 
+                  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                  shell: /bin/bash
+

@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vm-demo
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Arrow-ECS-Lab-ACME-Corp-OpenShift-Demos/virtualization-gitops.git
+    targetRevision: main
+    path: vm
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: virtual-machines
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
