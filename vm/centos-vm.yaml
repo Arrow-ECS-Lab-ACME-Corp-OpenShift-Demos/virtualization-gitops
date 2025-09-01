@@ -22,7 +22,7 @@ spec:
                 bus: virtio
         resources:
           requests:
-            memory: 1Gi
+            memory: 2Gi
       volumes:
         - name: containerdisk
           containerDisk:
